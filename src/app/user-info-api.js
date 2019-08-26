@@ -1,3 +1,4 @@
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import auth from './auth';
 
@@ -14,5 +15,20 @@ export default{
     return axios.get(USERINFO_URL, requestData).then(response => {
       return response.data;
     });
+  },
+  getGroupId(){
+    var cognitoUser = auth.userPool.getCurrentUser();
+    if(cognitoUser != null){
+      cognitoUser.getSession(function(err, session) {
+        if (err) {
+          //console.error(err);
+          return;
+        }
+        //console.log('session validity: ' + session.isValid());
+        var sessionIdInfo = jwt_decode(session.getIdToken().jwtToken);
+        console.log(sessionIdInfo['cognito:groups']);
+        return sessionIdInfo['cognito:groups'];
+      });
+    }
   }
 }

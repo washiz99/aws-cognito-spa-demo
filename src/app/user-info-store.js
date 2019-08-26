@@ -1,8 +1,14 @@
 var state = {
+  group: '',
   cognitoInfo: {},
   loggedIn: false,
   loadingState: true,
   errorLoadingState: false
+}
+
+function setGroup(newValue) {
+  console.log('group:' + newValue);
+  state.group = newValue;
 }
 
 function setLoggedIn(newValue) {
@@ -22,5 +28,6 @@ export default {
   state: state,
   setLoggedIn: setLoggedIn,
   setLoggedOut: setLoggedOut,
+  setGroup: setGroup,
   setCognitoInfo: setCognitoInfo
 }

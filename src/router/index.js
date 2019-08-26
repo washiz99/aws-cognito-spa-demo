@@ -18,10 +18,13 @@ function requireAuth(to, from, next) {
       query: { redirect: to.fullPath }
     });
   } else {
+    UserInfoApi.getGroupId().then(result => {
+      console.log('g:' + result);
     UserInfoApi.getUserInfo().then(response => {
       UserInfoStore.setLoggedIn(true);
       UserInfoStore.setCognitoInfo(response);
       next();
+    });
     });
   }
 }

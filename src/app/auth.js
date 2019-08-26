@@ -1,5 +1,6 @@
 /* eslint-disable */
 import {CognitoAuth, StorageHelper} from 'amazon-cognito-auth-js';
+import {CognitoUserPool, CognitoUserAttribute, CognitoUser} from 'amazon-cognito-identity-js';
 import IndexRouter from '../router/index';
 import UserInfoStore from './user-info-store';
 import UserInfoApi from './user-info-api';
@@ -11,6 +12,14 @@ const REDIRECT_URI = process.env.VUE_APP_COGNITO_REDIRECT_URI;
 const USERPOOL_ID = process.env.VUE_APP_COGNITO_USERPOOL_ID;
 const REDIRECT_URI_SIGNOUT = process.env.VUE_APP_COGNITO_REDIRECT_URI_SIGNOUT;
 const APP_URL = process.env.VUE_APP_APP_URL;
+
+
+var userPoolData = {
+  UserPoolId : USERPOOL_ID,
+  ClientId : CLIENT_ID
+}
+
+var userPool = new CognitoUserPool(userPoolData);
 
 var authData = {
   ClientId : CLIENT_ID, // Your client id here
@@ -47,6 +56,7 @@ var storageHelper = new StorageHelper();
 var storage = storageHelper.getStorage();
 export default{
   auth: auth,
+  userPool: userPool,
   login(){
     auth.getSession();
   },
@@ -54,8 +64,8 @@ export default{
     if (auth.isUserSignedIn()) {
       var userInfoKey = this.getUserInfoStorageKey();
       auth.signOut();
-                                                                            storage.removeItem(userInfoKey);
+      storage.removeItem(userInfoKey);
     }
   },
-  getUserInfoStorageKey,
+  getUserInfoStorageKey
 }

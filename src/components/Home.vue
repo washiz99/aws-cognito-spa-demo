@@ -5,6 +5,8 @@
       <div class="alert alert-info">
         {{userInfo}}
       </div>
+      <p>{{userPoolId}}</p>
+      <p>{{userGroup}}</p>
       <router-link to="/logout">
       Logout
       </router-link>
@@ -19,7 +21,8 @@ export default {
   data: function() {
     return{
       userPoolId: process.env.VUE_APP_COGNITO_USERPOOL_ID,
-      userInfo: UserInfoStore.state.cognitoInfo
+      userInfo: UserInfoStore.state.cognitoInfo,
+      userGroup: UserInfoStore.state.group
     }
   }
 }
